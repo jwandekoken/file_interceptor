@@ -20,7 +20,10 @@ def process_packet(packet):
         # if destination port == 80 (http port), it is a request
         if scapy_packet[scapy.TCP].dport == 80:
             # check for a ".x" file extension in the load field of the Raw layer
-            if ".gif" in scapy_packet[scapy.Raw].load.decode():
+            if (
+                ".gif" in scapy_packet[scapy.Raw].load.decode()
+                and "172.16.239.140" not in scapy_packet[scapy.Raw].load.decode()
+            ):
                 print("[+] gif Request")
                 request_ack = scapy_packet[scapy.TCP].ack
                 ack_list.append(request_ack)
